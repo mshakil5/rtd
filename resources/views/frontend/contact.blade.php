@@ -10,7 +10,7 @@
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       <div class="contact-main-wrapper">
         <div class="map-wrapper">
-          <iframe src="{{ $company->google_map ?? '' }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe src="{{ $company->google_map ?? '' }}" frameborder="0" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
 
         <div class="contact-content">
@@ -118,14 +118,17 @@
                     </div>
 
                     <div class="social-links mt-2">
-                        @if(!empty($company->twitter))
-                            <a href="{{ $company->twitter }}"><i class="bi bi-twitter-x"></i></a>
-                        @endif
                         @if(!empty($company->facebook))
                             <a href="{{ $company->facebook }}"><i class="bi bi-facebook"></i></a>
                         @endif
+                        @if(!empty($company->twitter))
+                            <a href="{{ $company->twitter }}"><i class="bi bi-twitter-x"></i></a>
+                        @endif
                         @if(!empty($company->linkedin))
                             <a href="{{ $company->linkedin }}"><i class="bi bi-linkedin"></i></a>
+                        @endif
+                        @if(!empty($company->instagram))
+                            <a href="{{ $company->instagram }}"><i class="bi bi-instagram"></i></a>
                         @endif
                     </div>
                 </div>

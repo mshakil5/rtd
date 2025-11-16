@@ -66,4 +66,12 @@
     background-color: #b1915d;
     border-color: #b1915d;
   }
+.cookie-buttons {
+    text-align: left;
+}
+
+.cookie-buttons .btn {
+    display: inline-block;
+    width: auto;
+}
 </style>

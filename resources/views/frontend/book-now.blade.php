@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-8 mb-4">
                 <div class="reservation-card">
-                    <h3 class="mb-4">Booking Now</h3>
+                    <h3 class="mb-4">Book Now</h3>
                     <form class="php-email-form" method="POST" action="{{ route('booking.store') }}">
                         @csrf
                         <div class="row">
@@ -88,8 +88,10 @@
                             <span id="captcha-error" class="text-danger d-none"></span>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" id="submit-btn">Book Your Event</button>
+                        <div class="submit-btn-wrapper">
+                        <button type="submit" class="btn submit-btn-solid" id="submit-btn">Book Your Event</button>
                         <div id="loading-text" class="alert alert-info d-none mt-2">Sending your booking...</div>
+                        </div>
                         @if(session('success'))
                             <div class="alert alert-success mt-3">{{ session('success') }}</div>
                         @endif

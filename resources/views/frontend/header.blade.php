@@ -14,7 +14,7 @@
                 <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About Us</a>
             </li>
             <li>
-                <a href="{{ route('menu') }}" class="">Menu</a>
+                <a href="{{ route('menu') }}" class="{{ request()->routeIs('menu') ? 'active' : '' }}">Menu</a>
             </li>
             <li>
                 <a href="{{ route('gallery') }}" class="{{ request()->routeIs('gallery') ? 'active' : '' }}">Gallery</a>

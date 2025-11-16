@@ -65,14 +65,16 @@ class FrontendController extends Controller
     {
         $companyDetails = CompanyDetails::select('about_us')->first();
         $banner =  Banner::firstOrCreate(['page' => 'About']);
-        $about = Master::firstOrCreate(['name' => 'About']);
+        $about1 = Master::firstOrCreate(['name' => 'About-Section-1']);
+        $about2 = Master::firstOrCreate(['name' => 'About-Section-2']);
+        $about3 = Master::firstOrCreate(['name' => 'About-Section-3']);
         $this->seo(
-            $about->meta_title,
-            $about->meta_description,
-            $about->meta_keywords,
-            $about->meta_image ? asset('images/meta_image/' . $about->meta_image) : null
+            $about1->meta_title,
+            $about1->meta_description,
+            $about1->meta_keywords,
+            $about1->meta_image ? asset('images/meta_image/' . $about1->meta_image) : null
         );
-        return view('frontend.about', compact('companyDetails', 'banner', 'about'));
+        return view('frontend.about', compact('companyDetails', 'banner', 'about1', 'about2', 'about3'));
     }
 
     public function menu()
@@ -341,7 +343,7 @@ class FrontendController extends Controller
           );
       }
 
-      $company = CompanyDetails::select('address1', 'phone1', 'email1', 'google_map', 'opening_time', 'facebook', 'twitter', 'linkedin', 'whatsapp')->first();
+      $company = CompanyDetails::select('address1', 'phone1', 'email1', 'google_map', 'opening_time', 'facebook', 'twitter', 'linkedin', 'whatsapp', 'instagram')->first();
       return view('frontend.contact', compact('contact', 'company', 'banner'));
     }
 
