@@ -154,7 +154,7 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            var videoSrc = "{{ asset('example.mp4') }}";
+            var videoSrc = "{{ asset('promo.mp4') }}";
 
             $('#videoModal').on('show.bs.modal', function() {
                 $('#modalVideo').html('<source src="' + videoSrc +
