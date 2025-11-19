@@ -80,7 +80,7 @@
                         <div class="col-lg-6">
                             <div class="video-gallery text-center">
                                 <div class="thumbnail position-relative">
-                                    <img src="{{ asset('video-thumbnail.jpg') }}" alt="Video Thumbnail"
+                                    <img src="{{ asset('video-thumbnail.png') }}" alt="Video Thumbnail"
                                         class="fixed-thumb img-fluid rounded">
                                     <button type="button" class="video-play-float btn" data-bs-toggle="modal"
                                         data-bs-target="#videoModal">
