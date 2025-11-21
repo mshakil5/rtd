@@ -13,7 +13,7 @@
             <li>
                 <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About Us</a>
             </li>
-            <li>
+            <li class="d-none">
                 <a href="{{ route('menu') }}" class="{{ request()->routeIs('menu') ? 'active' : '' }}">Menu</a>
             </li>
             <li>

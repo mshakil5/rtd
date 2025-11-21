@@ -21,6 +21,27 @@ class MasterController extends Controller
             return response()->json(['status'=> 303,'message'=>$message]);
             exit();
         }
+
+        if ($request->hasFile('video')) {
+            $video = $request->file('video');
+            $videoSize = $video->getSize(); // Size in bytes
+            $maxSize = 20 * 1024 * 1024; // 20MB in bytes
+            
+            if ($videoSize > $maxSize) {
+                $message = "<div class='alert alert-warning'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><b>Video size must be less than 20MB.</b></div>";
+                return response()->json(['status'=> 303, 'message'=>$message]);
+                exit();
+            }
+            
+            $allowedExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv'];
+            $videoExtension = $video->getClientOriginalExtension();
+            
+            if (!in_array(strtolower($videoExtension), $allowedExtensions)) {
+                $message = "<div class='alert alert-warning'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><b>Invalid video format. Allowed formats: MP4, AVI, MOV, WMV, FLV, MKV.</b></div>";
+                return response()->json(['status'=> 303, 'message'=>$message]);
+                exit();
+            }
+        }
         
         $data = new Master;
         $data->name = $request->name;
@@ -38,6 +59,13 @@ class MasterController extends Controller
             $imageName = rand(10000000, 99999999) . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/meta_image'), $imageName);
             $data->meta_image = $imageName;
+        }
+
+        if ($request->hasFile('video')) {
+            $video = $request->file('video');
+            $videoName = 'video_' . rand(10000000, 99999999) . '.' . $video->getClientOriginalExtension();
+            $video->move(public_path('images/meta_video'), $videoName);
+            $data->video = $videoName;
         }
 
         if ($data->save()) {
@@ -68,6 +96,27 @@ class MasterController extends Controller
             exit();
         }
 
+        if ($request->hasFile('video')) {
+            $video = $request->file('video');
+            $videoSize = $video->getSize();
+            $maxSize = 20 * 1024 * 1024; // 20MB
+            
+            if ($videoSize > $maxSize) {
+                $message = "<div class='alert alert-warning'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><b>Video size must be less than 20MB.</b></div>";
+                return response()->json(['status'=> 303, 'message'=>$message]);
+                exit();
+            }
+            
+            $allowedExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv'];
+            $videoExtension = $video->getClientOriginalExtension();
+            
+            if (!in_array(strtolower($videoExtension), $allowedExtensions)) {
+                $message = "<div class='alert alert-warning'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><b>Invalid video format. Allowed formats: MP4, AVI, MOV, WMV, FLV, MKV.</b></div>";
+                return response()->json(['status'=> 303, 'message'=>$message]);
+                exit();
+            }
+        }
+
         if ($request->hasFile('meta_image')) {
             if ($data->meta_image) {
                 $oldImagePath = public_path('images/meta_image/' . $data->meta_image);
@@ -80,6 +129,21 @@ class MasterController extends Controller
             $imageName = rand(10000000, 99999999) . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/meta_image'), $imageName);
             $data->meta_image = $imageName;
+        }
+
+        if ($request->hasFile('video')) {
+            // Delete old video if exists
+            if ($data->video) {
+                $oldVideoPath = public_path('images/meta_video/' . $data->video);
+                if (file_exists($oldVideoPath)) {
+                    unlink($oldVideoPath);
+                }
+            }
+
+            $video = $request->file('video');
+            $videoName = 'video_' . rand(10000000, 99999999) . '.' . $video->getClientOriginalExtension();
+            $video->move(public_path('images/meta_video'), $videoName);
+            $data->video = $videoName;
         }
 
         $data->name = $request->name;

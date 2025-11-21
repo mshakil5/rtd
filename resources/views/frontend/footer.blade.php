@@ -44,7 +44,7 @@
                     <ul>
                         <li><a href="{{ route('home') }}"><i class="bi bi-chevron-right"></i> Home</a></li>
                         <li><a href="{{ route('about') }}"><i class="bi bi-chevron-right"></i> About Us</a></li>
-                        <li><a href="{{ route('menu') }}"><i class="bi bi-chevron-right"></i> Menu</a></li>
+                        <li class="d-none"><a href="{{ route('menu') }}"><i class="bi bi-chevron-right"></i> Menu</a></li>
                         <li><a href="{{ route('services') }}"><i class="bi bi-chevron-right"></i> Services</a></li>
                         <li><a href="{{ route('contact') }}"><i class="bi bi-chevron-right"></i> Contact</a></li>
                         <li><a href="{{ route('book-now') }}"><i class="bi bi-chevron-right"></i> Book Now</a></li>

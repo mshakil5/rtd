@@ -9,10 +9,9 @@
                     <div class="container">
                         <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="100">
                             <div class="col-lg-12 text-center">
-                                @if ($sliders->first())
-                                    <h2>{{ $sliders->first()->title }}</h2>
-                                    <p>{{ $sliders->first()->sub_title }}</p>
-                                @endif
+                                <h2 id="slider-title"></h2>
+                                <p id="slider-sub"></p>
+
                                 <div class="d-flex justify-content-center gap-2">
                                     <a href="{{ route('book-now') }}" class="btn-get-started">Book Now</a>
                                 </div>
@@ -23,23 +22,112 @@
 
                 <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                     <div class="carousel-inner">
+
                         @foreach ($sliders as $key => $slider)
-                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                <img src="{{ asset('images/slider/' . $slider->image) }}" class="d-block w-100"
-                                    alt="{{ $slider->title ?? 'Slider Image' }}">
+                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}" data-title="{{ $slider->title }}"
+                                data-sub="{{ $slider->sub_title }}">
+                                <img src="{{ asset('images/slider/' . $slider->image) }}" class="d-block w-100">
                             </div>
                         @endforeach
+
                     </div>
 
                     <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+                        <span class="carousel-control-prev-icon bi bi-chevron-left"></span>
                     </a>
 
                     <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
-                        <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+                        <span class="carousel-control-next-icon bi bi-chevron-right"></span>
                     </a>
                 </div>
 
+                <script>
+                    function updateSliderText() {
+                        var active = document.querySelector('#hero-carousel .carousel-item.active');
+                        document.getElementById('slider-title').innerText = active.dataset.title;
+                        document.getElementById('slider-sub').innerText = active.dataset.sub;
+                    }
+
+                    // Initial load
+                    updateSliderText();
+
+                    // On slide change
+                    var hero = document.getElementById('hero-carousel');
+                    hero.addEventListener('slid.bs.carousel', updateSliderText);
+                </script>
+
+            </section>
+        @endif
+
+        @if ($section->name == 'video-1')
+            <section class="services section">
+                <div class="container" data-aos="fade-up" data-aos-delay="100">
+                    <div class="row align-items-center mb-5">
+
+                        <div class="col-lg-6">
+                            <div class="services-content" data-aos="fade-left" data-aos-duration="900">
+                                <span class="subtitle">{{ $video1->short_title ?? '' }}</span>
+                                <h2>{{ $video1->long_title ?? '' }}</h2>
+                                <p data-aos="fade-right" data-aos-duration="800">
+                                    {!! $video1->long_description ?? '' !!}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="video-gallery text-center">
+                                <div class="thumbnail position-relative">
+                                    <img src="{{ asset('images/meta_image/' . $video1->meta_image) }}" alt="Video Thumbnail"
+                                        class="fixed-thumb img-fluid rounded">
+
+                                    <button type="button" class="video-play-float btn" data-bs-toggle="modal"
+                                        data-bs-target="#videoModal"
+                                        data-video="{{ asset('images/meta_video/' . $video1->video) }}">
+                                        <i class="bi bi-play-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        @endif
+
+        @if ($section->name == 'video-2')
+            <section class="services section light-background">
+                <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                    <div class="row align-items-center mb-5">
+
+                        <div class="col-lg-6">
+                            <div class="video-gallery text-center">
+                                <div class="thumbnail position-relative">
+                                    <img src="{{ asset('images/meta_image/' . $video2->meta_image) }}" alt="Video Thumbnail"
+                                        class="fixed-thumb img-fluid rounded">
+
+                                    <button type="button" class="video-play-float btn" data-bs-toggle="modal"
+                                        data-bs-target="#videoModal"
+                                        data-video="{{ asset('images/meta_video/' . $video2->video) }}">
+                                        <i class="bi bi-play-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="services-content" data-aos="fade-left" data-aos-duration="900">
+                                <span class="subtitle">{{ $video2->short_title ?? '' }}</span>
+                                <h2>{{ $video2->long_title ?? '' }}</h2>
+                                <p data-aos="fade-right" data-aos-duration="800">
+                                    {!! $video2->long_description ?? '' !!}
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
             </section>
         @endif
 
@@ -83,7 +171,7 @@
                                     <img src="{{ asset('video-thumbnail.png') }}" alt="Video Thumbnail"
                                         class="fixed-thumb img-fluid rounded">
                                     <button type="button" class="video-play-float btn" data-bs-toggle="modal"
-                                        data-bs-target="#videoModal">
+                                        data-bs-target="#videoModal" data-video="{{ asset('promo.mp4') }}">
                                         <i class="bi bi-play-fill"></i>
                                     </button>
                                 </div>
@@ -154,18 +242,22 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            var videoSrc = "{{ asset('promo.mp4') }}";
+            $('.video-play-float').on('click', function() {
 
-            $('#videoModal').on('show.bs.modal', function() {
-                $('#modalVideo').html('<source src="' + videoSrc +
-                    '" type="video/mp4">Your browser does not support the video tag.');
+                let videoPath = $(this).data('video'); // dynamic for all
+
+                $('#modalVideo').html(
+                    '<source src="' + videoPath + '" type="video/mp4">'
+                );
+
                 $('#modalVideo')[0].load();
                 $('#modalVideo')[0].play();
             });
 
             $('#videoModal').on('hidden.bs.modal', function() {
-                $('#modalVideo')[0].pause();
-                $('#modalVideo')[0].currentTime = 0;
+                let v = $('#modalVideo')[0];
+                v.pause();
+                v.currentTime = 0;
                 $('#modalVideo').html('');
             });
         });

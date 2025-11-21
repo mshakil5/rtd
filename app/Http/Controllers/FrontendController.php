@@ -40,6 +40,8 @@ class FrontendController extends Controller
       $hero = Master::firstOrCreate(['name' => 'hero']);
       $about = Master::firstOrCreate(['name' => 'about']);
       $service = Master::firstOrCreate(['name' => 'service']);
+      $video1 = Master::firstOrCreate(['name' => 'video-1']);
+      $video2 = Master::firstOrCreate(['name' => 'video-2']);
 
       $sliders = Cache::remember('active_sliders', now()->addDay(), function () {
           return Slider::where('status', 1)->latest()->get();
@@ -58,7 +60,7 @@ class FrontendController extends Controller
           $company?->meta_image ? asset('images/company/meta/' . $company->meta_image) : null
       );
 
-      return view('frontend.index', compact('hero','sliders','about','service','sections','products'));
+      return view('frontend.index', compact('hero','sliders','about','service','sections','products','video1','video2'));
     }
 
     public function aboutUs()

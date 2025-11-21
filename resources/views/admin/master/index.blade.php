@@ -87,6 +87,19 @@
                     </div>
                     <img id="meta_image_preview" src="#" alt="Meta Image Preview" class="pt-3" style="max-width: 150px; height: auto; display: none;"/>
                 </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label>Video (Max: 20MB)</label>
+                        <input type="file" id="video" name="video" class="form-control" onchange="previewVideo(event)" accept="video/*">
+                        <small class="form-text text-muted">Allowed formats: MP4, AVI, MOV, WMV, FLV, MKV. Maximum size: 20MB</small>
+                    </div>
+                    <video id="video_preview" controls class="pt-3" style="max-width: 300px; height: auto; display: none;">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div id="video_name" class="pt-2" style="display: none;"></div>
+                </div>
+
               </div>      
             </form>
           </div>
@@ -171,6 +184,38 @@
         output.style.display = 'block';
     }
 
+    function previewVideo(event) {
+        var file = event.target.files[0];
+        var videoPreview = document.getElementById('video_preview');
+        var videoName = document.getElementById('video_name');
+        
+        if (file) {
+            // Check file size (20MB = 20 * 1024 * 1024 bytes)
+            if (file.size > 20 * 1024 * 1024) {
+                alert('Video size must be less than 20MB');
+                event.target.value = '';
+                videoPreview.style.display = 'none';
+                videoName.style.display = 'none';
+                return;
+            }
+            
+            // Check file type
+            var allowedTypes = ['video/mp4', 'video/avi', 'video/quicktime', 'video/x-ms-wmv', 'video/x-flv', 'video/x-matroska'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Please select a valid video file (MP4, AVI, MOV, WMV, FLV, MKV)');
+                event.target.value = '';
+                videoPreview.style.display = 'none';
+                videoName.style.display = 'none';
+                return;
+            }
+            
+            videoPreview.src = URL.createObjectURL(file);
+            videoPreview.style.display = 'block';
+            videoName.innerHTML = '<strong>Selected file:</strong> ' + file.name;
+            videoName.style.display = 'block';
+        }
+    }
+
     $(document).ready(function() {
         $('.summernote').summernote({
             height: 200, 
@@ -209,6 +254,7 @@
               form_data.append("meta_description", $("#meta_description").val());
               form_data.append("meta_keywords", $("#meta_keywords").val());
               form_data.append("meta_image", $("#meta_image")[0].files[0]);
+              form_data.append("video", $("#video")[0].files[0]);
               $.ajax({
                 url: url,
                 method: "POST",
@@ -244,6 +290,7 @@
               form_data.append("meta_keywords", $("#meta_keywords").val());
               form_data.append("meta_image", $("#meta_image")[0].files[0]);
               form_data.append("codeid", $("#codeid").val());
+              form_data.append("video", $("#video")[0].files[0]);
               
               $.ajax({
                   url:upurl,
@@ -321,6 +368,15 @@
         } else {
             $("#meta_image_preview").attr("src", "").hide();
         }
+
+        if (data.video) {
+            var videoUrl = '/images/meta_video/' + data.video;
+            $("#video_preview").attr("src", videoUrl).show();
+            $("#video_name").html('<strong>Current file:</strong> ' + data.video).show();
+        } else {
+            $("#video_preview").attr("src", "").hide();
+            $("#video_name").hide();
+        }
         $("#codeid").val(data.id);
         $("#addBtn").val('Update');
         $("#addBtn").html('Update');
@@ -336,6 +392,7 @@
         $('#meta_image_preview').attr('src', '#').hide();
         $("#cardTitle").html('Add new');
         $("#name").prop('readonly', false);
+        $('#video_preview').attr('src', '#').hide();
       }
   });
 </script>
