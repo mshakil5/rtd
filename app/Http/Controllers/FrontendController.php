@@ -315,8 +315,22 @@ class FrontendController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'nullable|email',
-            'message' => 'nullable|string'
+            'message' => 'nullable|string',
+            'order_form' => 'nullable|file|mimes:jpg,jpeg,png,pdf'
         ]);
+
+        $orderFormPath = null;
+
+        if ($request->hasFile('order_form')) {
+            $folder = public_path('images/bookings');
+            if (!file_exists($folder)) {
+                mkdir($folder, 0777, true);
+            }
+            $file = $request->file('order_form');
+            $filename = 'booking_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($folder, $filename);
+            $orderFormPath = '/images/bookings/' . $filename;
+        }
 
         Booking::create([
             'people' => $request->people,
@@ -326,6 +340,7 @@ class FrontendController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'message' => $request->message,
+            'order_form' => $orderFormPath,
         ]);
 
         return back()->with('success', 'Your booking has been submitted successfully!');

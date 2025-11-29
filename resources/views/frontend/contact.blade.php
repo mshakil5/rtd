@@ -112,10 +112,10 @@
 
                             <div class="form-submit mt-3">
                                 <div class="row align-items-center">
-                                    <div class="col-md-6 d-flex">
+                                    <div class="col-md-6 d-flex mb-2 mb-md-0">
                                         <button type="submit" class="btn btn-primary" id="submit-btn">Send Message</button>
                                     </div>
-                                    <div class="col-md-6 d-flex">
+                                    <div class="col-md-6 d-flex mb-2 mb-md-0">
                                         <div class="d-flex align-items-center gap-2">
                                             <span id="captcha-question" class="fw-bold"></span>
                                             <input type="number" id="captcha-answer" class="form-control"

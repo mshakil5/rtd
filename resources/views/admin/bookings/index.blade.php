@@ -54,6 +54,10 @@
                         <p><strong>Message:</strong></p>
                         <div class="border p-3" id="view-message"></div>
                     </div>
+                    <div class="col-12 mb-2">
+                        <p><strong>Order Form:</strong></p>
+                        <div id="view-order-form"></div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
@@ -94,6 +98,14 @@ $(document).ready(function () {
             $('#view-time').text(data.time);
             $('#view-people').text(data.people);
             $('#view-message').text(data.message);
+
+            if (data.order_form) {
+                $('#view-order-form').html(
+                    `<iframe src="${data.order_form}" style="width:100%;height:400px;" frameborder="0"></iframe>`
+                );
+            } else {
+                $('#view-order-form').html('<span class="text-muted">No file uploaded</span>');
+            }
 
             var statusLabels = ['Pending','Approved','Rejected'];
             var badgeClasses = ['badge-warning','badge-success','badge-danger'];

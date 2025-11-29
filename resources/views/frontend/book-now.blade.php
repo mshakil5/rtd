@@ -14,10 +14,10 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-8 mb-4">
+            <div class="col-lg-8">
                 <div class="reservation-card">
                     <h3 class="mb-4">Book Now</h3>
-                    <form class="php-email-form" method="POST" action="{{ route('booking.store') }}">
+                    <form class="php-email-form" method="POST" action="{{ route('booking.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-4 mb-3">
@@ -71,6 +71,13 @@
                                 @error('email')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">Upload Order Form (Optional)</label>
+                                <input type="file" name="order_form" class="form-control" accept="application/pdf">
                             </div>
                         </div>
 
@@ -128,11 +135,11 @@
                         }
                     @endphp
 
-                    <div class="status-badge {{ $badgeClass }} mb-3">
+                    <div class="status-badge {{ $badgeClass }} mb-3 d-none">
                         <i class="bi {{ $badgeClass == 'open' ? 'bi-check-circle' : 'bi-x-circle' }}"></i> {{ $status }}
                     </div>
 
-                    <div class="info-item">
+                    <div class="info-item d-none">
                         <h4>Opening Time</h4>
                         <p>
                             <strong>Monday - Sunday</strong><br>
@@ -140,7 +147,7 @@
                             {{ \Carbon\Carbon::parse($company->lunch_dinner_start)->format('g:i A') }} - {{ \Carbon\Carbon::parse($company->lunch_dinner_end)->format('g:i A') }} (Lunch - Dinner)
                         </p>
                     </div>
-                    <div class="info-item">
+                    <div class="info-item d-none">
                         <h4>Book Your Event Today!</h4>
                         <p>
                             {{ \Carbon\Carbon::parse($company->event_booking_start)->format('g:i A') }} - {{ \Carbon\Carbon::parse($company->event_booking_end)->format('g:i A') }} (Lunch)<br>

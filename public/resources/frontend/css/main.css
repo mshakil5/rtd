@@ -754,8 +754,9 @@ h6 {
 
 .footer .footer-bottom .credits {
   text-align: right;
-  font-size: 13px;
-  color: color-mix(in srgb, var(--default-color), transparent 40%);
+  font-size: 14px;
+  color: var(--default-color);
+  
 }
 
 @media (max-width: 991px) {

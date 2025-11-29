@@ -4,6 +4,7 @@ use App\Http\Controllers\ContactContoller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\SitemapController;
 
 // cache clear
 Route::get('/clear', function() {
@@ -47,6 +48,8 @@ Route::post('/book-now', [FrontendController::class, 'bookNowStore'])->name('boo
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 
 Route::post('/contact', [FrontendController::class, 'storeContact'])->name('contact.store');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 Route::get('/content-search', [FrontendController::class, 'searchContent'])->name('content.search');
 Route::get('/type/{type}', [FrontendController::class, 'type'])->name('content.type');
