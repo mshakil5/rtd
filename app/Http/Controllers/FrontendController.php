@@ -70,13 +70,14 @@ class FrontendController extends Controller
         $about1 = Master::firstOrCreate(['name' => 'About-Section-1']);
         $about2 = Master::firstOrCreate(['name' => 'About-Section-2']);
         $about3 = Master::firstOrCreate(['name' => 'About-Section-3']);
+        $about4 = Master::firstOrCreate(['name' => 'About-Section-4']);
         $this->seo(
             $about1->meta_title,
             $about1->meta_description,
             $about1->meta_keywords,
             $about1->meta_image ? asset('images/meta_image/' . $about1->meta_image) : null
         );
-        return view('frontend.about', compact('companyDetails', 'banner', 'about1', 'about2', 'about3'));
+        return view('frontend.about', compact('companyDetails', 'banner', 'about1', 'about2', 'about3', 'about4'));
     }
 
     public function menu()
